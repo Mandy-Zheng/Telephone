@@ -4,14 +4,6 @@ int semd,shmd,fd,v,r;
 union semun us;
 struct sembuf sb;
 
-int main(int argc, char const *argv[]) {
-  int command=parseCommand(argv);
-  us.val=1;
-  sb.sem_num=0;
-  sb.sem_op =-1;
-  return 0;
-}
-
 int parseCommand(char *args[]){
   if(args[1]==NULL){
     printf("Please Enter a Valid Command\n");
@@ -27,7 +19,7 @@ int parseCommand(char *args[]){
       viewStory();
       return 2;
     }else{
-        printf("No Such Command Found\n", );
+        printf("No Such Command Found\n");
         return -1;
     }
   }
@@ -112,5 +104,13 @@ int removeStory(){
   remove("telephone.txt");
   printf("File Deleted\n");
 
+  return 0;
+}
+
+int main(int argc, char const *argv[]) {
+  int command=parseCommand(argv);
+  us.val=1;
+  sb.sem_num=0;
+  sb.sem_op =-1;
   return 0;
 }
