@@ -23,8 +23,6 @@ int createStory(){
     printf("Failed to create a Semaphore\n");
     printf("Error: %s\n", strerror(shmd));
     shmd = shmget(SHKEY, sizeof(char *), 0);
-    r = shmctl(shmd, 0, GETVAL, 0); //returning the value and print it out if its there, index 0 for one sephamore
-    printf("Shmctl returned: %d\n", r);
     return -1;
   }
   printf("Shared Memory Created\n");
@@ -87,14 +85,6 @@ int removeStory(){
   return 0;
 }
 
-int main(int argc, char const *argv[]) {
-  int command=parseCommand(argv);
-  us.val=1;
-  sb.sem_num=0;
-  sb.sem_op =-1;
-  return 0;
-}
-
 int parseCommand(char *args[]){
   if(args[1]==NULL){
     printf("Please Enter a Valid Command\n");
@@ -114,4 +104,12 @@ int parseCommand(char *args[]){
         return -1;
     }
   }
+}
+
+int main(int argc, char const *argv[]) {
+  int command=parseCommand(argv);
+  us.val=1;
+  sb.sem_num=0;
+  sb.sem_op =-1;
+  return 0;
 }
