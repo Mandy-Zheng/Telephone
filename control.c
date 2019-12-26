@@ -4,26 +4,6 @@ int semd,shmd,fd,v,r;
 union semun us;
 struct sembuf sb;
 
-int parseCommand(char *args[]){
-  if(args[1]==NULL){
-    printf("Please Enter a Valid Command\n");
-    return -1;
-  }else{
-    if(strcmp(args[1],"-c")==0){
-      createStory();
-      return 0;
-    }else if(strcmp(args[1],"-r")==0){
-      removeStory();
-      return 1;
-    }else if(strcmp(args[1],"-v")==0){
-      viewStory();
-      return 2;
-    }else{
-        printf("No Such Command Found\n");
-        return -1;
-    }
-  }
-}
 int createStory(){
   printf("Trying to get in\n");
   semd=semget(SEMKEY,1,IPC_CREAT| IPC_EXCL | 0644); //creating a semaphore, creating and ipc_excl fails it if semaphore exists
@@ -113,4 +93,25 @@ int main(int argc, char const *argv[]) {
   sb.sem_num=0;
   sb.sem_op =-1;
   return 0;
+}
+
+int parseCommand(char *args[]){
+  if(args[1]==NULL){
+    printf("Please Enter a Valid Command\n");
+    return -1;
+  }else{
+    if(strcmp(args[1],"-c")==0){
+      createStory();
+      return 0;
+    }else if(strcmp(args[1],"-r")==0){
+      removeStory();
+      return 1;
+    }else if(strcmp(args[1],"-v")==0){
+      viewStory();
+      return 2;
+    }else{
+        printf("No Such Command Found\n");
+        return -1;
+    }
+  }
 }
