@@ -106,7 +106,7 @@ int parseCommand(char *args[]){
   }
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
   int command=parseCommand(argv);
   us.val=1;
   sb.sem_num=0;
