@@ -18,21 +18,21 @@ int parseCommand(char *args[]){
     return -1;
   }else{
     if(strcmp(args[1],"-c")==0){
-      create();
+      createStory();
       return 0;
     }else if(strcmp(args[1],"-r")==0){
-      remove();
+      removeStory();
       return 1;
     }else if(strcmp(args[1],"-v")==0){
-      view();
+      viewStory();
       return 2;
     }else{
         printf("No Such Command Found\n", );
         return -1;
     }
- }
+  }
 }
-int create(){
+int createStory(){
   printf("Trying to get in\n");
   semd=semget(SEMKEY,1,IPC_CREAT| IPC_EXCL | 0644); //creating a semaphore, creating and ipc_excl fails it if semaphore exists
   if(semd<0){
@@ -68,8 +68,22 @@ int create(){
   return 0;
 }
 
+int viewStory(){
+  fd=open("telephone.txt",O_RDONLY);
+  if(fd<0){
+    printf("Error: %s\n", strerror(fd));
+    return -1;
+  }
+  char book[100];
+  read(fd,book,1000);
+  printf("The story so far...\n");
+  printf("%s\n",book);
+  close(fd);
 
-int remove(){
+  return 0;
+}
+
+int removeStory(){
   printf("Trying to get in\n");
   semd=semget(SEMKEY,1,0);
   if(semd<0){
@@ -89,28 +103,14 @@ int remove(){
     return -1;
   }
 
-  view();
+  viewStory();
 
-  semctl(semd,IP_RMID,0);
+  semctl(semd,IPC_RMID,0);
   printf("Shared Memory Deleted\n");
-  shmctl(shmd,IP_RMID,0);
+  shmctl(shmd,IPC_RMID,0);
   printf("Semaphore Deleted\n");
   remove("telephone.txt");
   printf("File Deleted\n");
-
-  return 0;
-}
-int view(){
-  fd=open("telephone.txt",O_RDONLY);
-  if(fd<0){
-    printf("Error: %s\n", strerror(fd));
-    return -1;
-  }
-  char book[100]=NULL;
-  read(fd,book,1000);
-  printf("The story so far...\n");
-  printf("%s\n",book);
-  close(fd);
 
   return 0;
 }

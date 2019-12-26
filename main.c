@@ -1,7 +1,7 @@
 #include "control.h"
 int shmd,semd,fd;
 struct sembuf sb;
-int main(int argc, char const *argv[]) {
+int main() {
   sb.sem_num=0;
   sb.sem_op = -1;
   printf("Trying to get in\n");
