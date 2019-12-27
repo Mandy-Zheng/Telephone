@@ -12,6 +12,9 @@ int createStory(){
     printf("Error: %s\n", strerror(semd));
     semd = semget(SEMKEY, 1, 0); //getting the semaphore since error could be because it was created, one for one semaphore, 0 flag since not creating
     v = semctl(semd, 0, GETVAL, 0); //returning the value and print it out if its there, index 0 for one sephamore
+    if(v>0){
+      printf("A Semaphore already exists \n");
+    }
     printf("Semctl returned: %d\n", v);
     return -1;
   }
@@ -44,7 +47,7 @@ int viewStory(){
     printf("Error: %s\n", strerror(fd));
     return -1;
   }
-  char book[100];
+  char book[100]="\0";
   read(fd,book,1000);
   printf("The story so far...\n");
   printf("%s\n",book);
@@ -107,9 +110,9 @@ int parseCommand(char *args[]){
 }
 
 int main(int argc, char *argv[]) {
-  int command=parseCommand(argv);
   us.val=1;
   sb.sem_num=0;
   sb.sem_op =-1;
+  int command=parseCommand(argv);
   return 0;
 }

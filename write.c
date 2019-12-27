@@ -25,11 +25,14 @@ int main() {
   char * data=shmat(shmd,0,0);
   printf("Last Edit: %s\n",data);
   char newdata[1000];
-  printf("Type in your new edits:\n");
+  printf("Type in your new edits: \n");
   fgets(newdata,1000,stdin);
   write(fd,newdata,strlen(newdata));
+  printf("\n");
   close(fd);
   strcpy(data,newdata);
   shmdt(data);
+  sb.sem_op=1;
+  semop(semd,&sb,1);
   return 0;
 }
