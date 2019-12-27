@@ -25,7 +25,7 @@ int main() {
   char * data=shmat(shmd,0,0);
   printf("Last Edit: %s\n",data);
   char newdata[1000];
-  printf("Type in your new edits: \n");
+  printf("Type in your new edits: ");
   fgets(newdata,1000,stdin);
   write(fd,newdata,strlen(newdata));
   printf("\n");
